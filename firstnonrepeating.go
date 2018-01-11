@@ -12,6 +12,7 @@ func firstNotRepeatingCharacter(s string) string {
 			setBit(&bitMask, int(c-'a'))
 		} else if lastUniqueSeen == c {
 			lastUniqueSeen = previousLastUnique
+			previousLastUnique = '_'
 		}
 	}
 
