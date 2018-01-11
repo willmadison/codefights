@@ -21,6 +21,7 @@ func TestFirstNotRepeatingCharacter(t *testing.T) {
 		{"bcccccccccccccyb", "y"},
 		{"xdnxxlvupzuwgigeqjggosgljuhliybkjpibyatofcjbfxwtalc", "d"},
 		{"ngrhhqbhnsipkcoqjyviikvxbxyphsnjpdxkhtadltsuxbfbrkof", "g"},
+		{"bcbcbca", "a"},
 	}
 
 	for _, tc := range cases {
