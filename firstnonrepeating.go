@@ -1,6 +1,9 @@
 package codefights
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 type RuneStack interface {
 	Push(r rune)
@@ -48,8 +51,12 @@ func (s *runeStack) IsEmpty() bool {
 	return s.size == 0
 }
 
+func (s *runeStack) String() string {
+	return fmt.Sprintf("%v", s.data)
+}
+
 func firstNotRepeatingCharacter(s string) string {
-	var bitMask int
+	occurrencesByCharacter := map[rune]int{}
 
 	stack := NewRuneStack()
 
@@ -57,22 +64,20 @@ func firstNotRepeatingCharacter(s string) string {
 
 	for index := len(s) - 1; index >= 0; index-- {
 		c := rune(s[index])
-		if seen := isBitSet(bitMask, int(c-'a')); !seen {
+		_, seen := occurrencesByCharacter[c]
+
+		occurrencesByCharacter[c]++
+
+		if !seen {
 			lastUniqueSeen, previousLastUnique = c, lastUniqueSeen
-			setBit(&bitMask, int(c-'a'))
 			stack.Push(previousLastUnique)
 		} else if lastUniqueSeen == c {
 			lastUniqueSeen, _ = stack.Pop()
+			for occurrencesByCharacter[lastUniqueSeen] != 1 && !stack.IsEmpty() {
+				lastUniqueSeen, _ = stack.Pop()
+			}
 		}
 	}
 
 	return string(lastUniqueSeen)
-}
-
-func setBit(given *int, i int) {
-	*given |= (1 << uint(i))
-}
-
-func isBitSet(given int, i int) bool {
-	return given&(1<<uint(i)) != 0
 }
