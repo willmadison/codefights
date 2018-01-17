@@ -1,6 +1,10 @@
 package codefights
 
-import "math"
+import (
+	"fmt"
+	"math"
+	"os"
+)
 
 const hourglassHeight = 3
 const hourglassWidth = 3
@@ -14,6 +18,8 @@ func hourglassSum(a [][]int) int {
 
 		for col <= len(a)-hourglassWidth {
 			sum := calculateHourglassSumAt(row, col, a)
+
+			fmt.Fprintf(os.Stdout, "hourglassSumAt(%v, %v) = %v (currentMax = %v)\n", row, col, sum, maxSum)
 
 			if sum > maxSum {
 				maxSum = sum
